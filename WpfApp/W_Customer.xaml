@@ -1,0 +1,72 @@
+﻿<Window x:Class="LuuThanhDatWPF.W_Customer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LuuThanhDatWPF"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        mc:Ignorable="d"
+        Title="W_Customer" Height="600" Width="1000">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- TabControl cho việc điều hướng -->
+        <TabControl VerticalContentAlignment="Top"
+                    materialDesign:ColorZoneAssist.Mode="PrimaryMid"
+                    Style="{StaticResource MaterialDesignNavigationRailTabControl}"
+                    SelectionChanged="TabControl_SelectionChanged">
+
+            <!-- Tab 1 -->
+            <TabItem Width="92" Height="86">
+                <TabItem.Header>
+                    <StackPanel>
+                        <materialDesign:PackIcon Width="24" Height="24" Kind="ClipboardAccount" HorizontalAlignment="Center"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Profile"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
+            <TabItem Width="92" Height="90">
+                <TabItem.Header>
+                    <StackPanel>
+                        <materialDesign:PackIcon Width="24" Height="24" Kind="ClipboardTextClockOutline" HorizontalAlignment="Center"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Reservation history" FontSize="10"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
+            <!-- Tab 3 -->
+            <TabItem Height="91" Width="90">
+                <TabItem.Header>
+                    <StackPanel>
+                        <materialDesign:PackIcon Width="24" Height="24" Kind="Logout" HorizontalAlignment="Center"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Logout"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
+            <!-- Tab 4 -->
+            <TabItem Width="92" Height="92">
+                <TabItem.Header>
+                    <StackPanel>
+                        <materialDesign:PackIcon Width="24" Height="24" Kind="Close" HorizontalAlignment="Center"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Exit"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+        </TabControl>
+
+        <!-- Frame cho việc hiển thị các trang -->
+        <Frame x:Name="ContentFrame" Grid.Column="1" NavigationUIVisibility="Hidden"/>
+
+    </Grid>
+</Window>

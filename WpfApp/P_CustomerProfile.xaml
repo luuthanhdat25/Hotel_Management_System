@@ -1,0 +1,55 @@
+﻿<Page x:Class="LuuThanhDatWPF.P_CustomerProfile"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:LuuThanhDatWPF"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="13"
+      TextOptions.TextFormattingMode="Ideal"
+      TextOptions.TextRenderingMode="Auto"
+      FontFamily="{DynamicResource MaterialDesignFont}"
+      Background="White"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="P_CustomerProfile">
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Grid.ColumnSpan="2" Text="Profile" Grid.Row="0" Grid.Column="0" Margin="10" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="Full Name" Grid.Row="1" Grid.Column="0" Margin="10"/>
+        <TextBox x:Name="tbFullName" MinWidth="200"  IsEnabled="False" Grid.Row="1" Grid.Column="1" Margin="10"/>
+
+        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="Telephone" Grid.Row="2" Grid.Column="0" Margin="10"/>
+        <TextBox x:Name="tbTelephone" MinWidth="200" IsEnabled="False" Grid.Row="2" Grid.Column="1" Margin="10"/>
+
+        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="Email Address" Grid.Row="3" Grid.Column="0" Margin="10"/>
+        <TextBox x:Name="tbEmail" MinWidth="200" IsEnabled="False" Grid.Row="3" Grid.Column="1" Margin="10"/>
+
+        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="Birthday" Grid.Row="4" Grid.Column="0" Margin="10"/>
+        <TextBox x:Name="tbBirthday" MinWidth="200"  IsEnabled="False" Grid.Row="4" Grid.Column="1" Margin="10"/>
+
+        <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button Name="btnUpdateProfile" Content="Update Profile" Height="30" Click="btn_UpdateProfile" Margin="5"/>
+            <Button Name="btnChangePassword" Content="Change Password" Height="30" Click="btn_ChangePassword" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -1,0 +1,99 @@
+﻿<Window x:Class="LuuThanhDatWPF.W_Admin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LuuThanhDatWPF"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        mc:Ignorable="d"
+        Title="W_Admin" Height="900" Width="1600">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TabControl VerticalContentAlignment="Top"
+                    materialDesign:ColorZoneAssist.Mode="PrimaryMid"
+                    Style="{StaticResource MaterialDesignNavigationRailTabControl}"
+                    SelectionChanged="TabControl_SelectionChanged"  >
+
+            <TabItem Width="113">
+                <TabItem.Header>
+                    <StackPanel>
+                        <materialDesign:PackIcon Width="24" Height="24" Kind="Shopping" HorizontalAlignment="Center"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Book Room"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
+            <TabItem Width="113">
+                <TabItem.Header>
+                    <StackPanel>
+                        <materialDesign:PackIcon Width="24" Height="24" Kind="BedClock" HorizontalAlignment="Center"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Booking Reservation" FontSize="12"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
+            <TabItem Width="113">
+                <TabItem.Header>
+                    <StackPanel>
+                        <materialDesign:PackIcon Width="24" Height="24" Kind="ClipboardAccount" HorizontalAlignment="Center"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Customer"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
+            <!-- Tab 2 -->
+            <TabItem Width="112">
+                <TabItem.Header>
+                    <StackPanel>
+                        <materialDesign:PackIcon Width="24" Height="24" Kind="Bed" HorizontalAlignment="Center"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Room Manage"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
+            <TabItem Width="112">
+                <TabItem.Header>
+                    <StackPanel>
+                        <materialDesign:PackIcon Width="24" Height="24" Kind="ChartLine" HorizontalAlignment="Center"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Static"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
+            <!-- Tab 3 -->
+            <TabItem Width="112">
+                <TabItem.Header>
+                    <StackPanel>
+                        <materialDesign:PackIcon Width="24" Height="24" Kind="Logout" HorizontalAlignment="Center"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Logout"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
+            <!-- Tab 4 -->
+            <TabItem Width="112">
+                <TabItem.Header>
+                    <StackPanel>
+                        <materialDesign:PackIcon Width="24" Height="24" Kind="Close" HorizontalAlignment="Center"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Exit"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+        </TabControl>
+
+        <!-- Frame cho việc hiển thị các trang -->
+        <Frame x:Name="ContentFrame" Grid.Column="1" NavigationUIVisibility="Hidden"/>
+
+    </Grid>
+</Window>
