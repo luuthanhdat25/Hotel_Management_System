@@ -13,50 +13,44 @@
       FontFamily="{DynamicResource MaterialDesignFont}"
       Background="White"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="800"
       Title="P_Static">
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="400"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Grid.ColumnSpan="2" Text="Static" Grid.Row="0" Grid.Column="0" Margin="10" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Grid.ColumnSpan="3" Text="Static" Grid.Row="0" Grid.Column="0" Margin="10" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
 
 
-        <Grid Grid.Row="1" HorizontalAlignment="Center" Margin="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="150"/>
-            </Grid.ColumnDefinitions>
 
-            <DatePicker Grid.Column="0"
-                        Margin="5"
-                materialDesign:HintAssist.Hint="From Date"
-                materialDesign:TextFieldAssist.HasClearButton="True"
-                Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                SelectedDateChanged="FromDatePicker_SelectedDateChanged"/>
 
-            <DatePicker Grid.Column="1"
-                Margin="5"
-                materialDesign:HintAssist.Hint="To Date"
-                materialDesign:TextFieldAssist.HasClearButton="True"
-                Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                SelectedDateChanged="ToDatePicker_SelectedDateChanged"/>
+        <DatePicker x:Name="dp_StarDate" 
+            Grid.Row="1" Grid.Column="0" 
+            Margin="10" materialDesign:HintAssist.Hint="Start Date" 
+            materialDesign:TextFieldAssist.HasClearButton="True" 
+            Style="{StaticResource MaterialDesignFloatingHintDatePicker}"/>
+        <DatePicker x:Name="dp_EndDate" 
+            Grid.Row="1" Grid.Column="1" 
+            Margin="10" materialDesign:HintAssist.Hint="End Date" 
+            materialDesign:TextFieldAssist.HasClearButton="True" 
+            Style="{StaticResource MaterialDesignFloatingHintDatePicker}"/>
 
-            <Button Content="Sort"  Click="btn_Sort" Margin="5" Grid.Column="2"/>
-        </Grid>
+        <Button Content="Sort"  Click="btn_Sort" Margin="5" Grid.Column="2" Grid.Row="1"/>
 
 
         <DataGrid x:Name="dataGrid"
-                  Grid.Row="2" Grid.ColumnSpan="2"
+                  Grid.Row="2" Grid.ColumnSpan="3"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
                   HeadersVisibility="All"
@@ -71,5 +65,9 @@
                 <DataGridTextColumn Binding="{Binding Revenue}" Header="Revenue" />
             </DataGrid.Columns>
         </DataGrid>
+
+        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="Total" Grid.Row="3" Grid.Column="0" Margin="10" FontWeight="Bold"/>
+        <TextBox x:Name="tbTotalPrice" MinWidth="100" IsEnabled="False" Grid.Row="3" Grid.Column="1" Margin="10" Grid.ColumnSpan="2"/>
+
     </Grid>
 </Page>

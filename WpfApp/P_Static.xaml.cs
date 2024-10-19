@@ -1,4 +1,5 @@
-﻿using DataAccess.Repository;
+﻿using BusinessObject;
+using DataAccess.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,10 +12,7 @@ namespace LuuThanhDatWPF
     /// </summary>
     public partial class P_Static : Page
     {
-		private DateTime fromDate;
-		private DateTime toDate;
-		private readonly IBookingDetailRepository _customerBookRoomRepository;
-		private readonly IRoomRepository _roomRepository;
+		private readonly IBookingReservationRepository _bookingReservationRepository;
 
 		class Static
 		{
@@ -26,89 +24,68 @@ namespace LuuThanhDatWPF
         public P_Static()
         {
             InitializeComponent();
-			_customerBookRoomRepository = DIService.Instance.ServiceProvider.GetService<IBookingDetailRepository>();
-			_roomRepository = DIService.Instance.ServiceProvider.GetService<IRoomRepository>();
+            _bookingReservationRepository = DIService.Instance.ServiceProvider.GetService<IBookingReservationRepository>();
         }
-
-		private void FromDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-		{
-			if (sender is DatePicker datePicker && datePicker.SelectedDate.HasValue)
-			{
-				fromDate = datePicker.SelectedDate.Value;
-				DateTime selectedDate = datePicker.SelectedDate.Value;
-				//MessageBox.Show($"From Date selected: {selectedDate.ToShortDateString()}");
-			}
-		}
-
-		private void ToDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-		{
-			if (sender is DatePicker datePicker && datePicker.SelectedDate.HasValue)
-			{
-				toDate = datePicker.SelectedDate.Value;
-				DateTime selectedDate = datePicker.SelectedDate.Value;
-				//MessageBox.Show($"To Date selected: {selectedDate.ToShortDateString()}");
-			}
-		}
 
         private void btn_Sort(object sender, RoutedEventArgs e)
         {
-            if (toDate.CompareTo(fromDate) < 0)
+            DateTime? startDate = dp_StarDate.SelectedDate;
+            DateTime? endDate = dp_EndDate.SelectedDate;
+
+            if (startDate == null || endDate == null)
             {
-                MessageBox.Show($"Invalid Pick Date, try again!");
+                System.Windows.MessageBox.Show("Please choose Start Date and End Date!");
+                return;
             }
-            else
+
+            if (endDate.Value.Date > DateTime.Now.Date)
             {
-                var listStatic = new List<Static>();
-                var customerBookRoomList = _customerBookRoomRepository.GetAll();
+                System.Windows.MessageBox.Show("End Date must be today or in the past!");
+                return;
+            }
 
-                foreach (var customerBookRoom in customerBookRoomList)
+            if (startDate.Value.CompareTo(endDate.Value) > 0)
+            {
+                System.Windows.MessageBox.Show("Invalid Pick Date, try again!");
+                return;
+            }
+
+            DateOnly startDateReadOnly = DateOnly.FromDateTime(startDate.Value);
+            DateOnly endDateReadOnly = DateOnly.FromDateTime(endDate.Value);
+
+            List<BookingReservation> bookingReservationList = _bookingReservationRepository.GetAll();  
+            var listStatic = new List<Static>();
+
+            foreach (var bookingReservation in bookingReservationList)
+            {
+                if(bookingReservation.BookingDate >= startDateReadOnly && bookingReservation.BookingDate <= endDateReadOnly)
                 {
-                    DateOnly start = customerBookRoom.StartDate > DateOnly.FromDateTime(fromDate) ? customerBookRoom.StartDate : DateOnly.FromDateTime(fromDate);
-                    DateOnly end = customerBookRoom.EndDate < DateOnly.FromDateTime(toDate) ? customerBookRoom.EndDate : DateOnly.FromDateTime(toDate);
+                    var staticNeedFind = listStatic.FirstOrDefault(sta => sta.Date.CompareTo(bookingReservation.BookingDate) == 0);
 
-                    foreach (DateOnly day in EachDay(start, end))
+                    if (staticNeedFind == null)
                     {
-                        var staticNeedFind = listStatic.FirstOrDefault(sta => sta.Date.CompareTo(day) == 0);
-
-                        if (staticNeedFind == null)
+                        staticNeedFind = new Static
                         {
-                            staticNeedFind = new Static
-                            {
-                                Date = day,
-                                NumberOfCustomer = 0,
-                                Revenue = 0
-                            };
-                            listStatic.Add(staticNeedFind);
-                        }
-
-                        staticNeedFind.NumberOfCustomer++;
-                        var room = _roomRepository.GetById(customerBookRoom.RoomId);
-                        if (room != null)
-                        {
-                            staticNeedFind.Revenue += room.RoomPricePerDate;
-                        }
+                            Date = bookingReservation.BookingDate,
+                            NumberOfCustomer = 0,
+                            Revenue = 0
+                        };
+                        listStatic.Add(staticNeedFind);
                     }
-                }
 
-                if(listStatic .Count > 0)
-                {
-                    dataGrid.ItemsSource = listStatic.OrderByDescending(sta => sta.Revenue).ToList();
-                }
-                else
-                {
-                    MessageBox.Show($"Didn't have customer from {DateOnly.FromDateTime(fromDate)} to {DateOnly.FromDateTime(toDate)}!");
+                    staticNeedFind.NumberOfCustomer++;
+                    staticNeedFind.Revenue += bookingReservation.TotalPrice;
                 }
             }
-        }
 
-
-
-        public IEnumerable<DateOnly> EachDay(DateOnly from, DateOnly thru)
-        {
-            for (var day = from; day <= thru; day = day.AddDays(1))
+            if(listStatic .Count > 0)
             {
-                yield return day;
+                dataGrid.ItemsSource = listStatic.OrderByDescending(sta => sta.Revenue).ToList();
             }
+
+            decimal totalRevenue = 0;
+            listStatic.ForEach(stat => totalRevenue += stat.Revenue);
+            tbTotalPrice.Text = totalRevenue.ToString();
         }
     }
 }
