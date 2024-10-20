@@ -11,14 +11,14 @@ namespace LuuThanhDatWPF
     public partial class W_Customer : Window
     {
         private readonly P_CustomerProfile customerProfilePage;
-        private readonly P_ReservationHistory reservationHistoryPage;
+        private readonly P_CustomerReservationHistory reservationHistoryPage;
 
         public W_Customer(Customer customer)
         {
             InitializeComponent();
 
             customerProfilePage = new P_CustomerProfile(customer);
-            reservationHistoryPage = new P_ReservationHistory(customer);
+            reservationHistoryPage = new P_CustomerReservationHistory(customer);
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -34,6 +34,7 @@ namespace LuuThanhDatWPF
                     break;
                
                 case 1:
+                    reservationHistoryPage.Reset();
                     ContentFrame.Navigate(reservationHistoryPage);
                     break;
 

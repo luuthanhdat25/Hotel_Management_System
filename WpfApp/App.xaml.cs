@@ -1,9 +1,4 @@
-﻿using DataAccess.Repository;
-using LuuThanhDatWPF;
-using Microsoft.Extensions.DependencyInjection;
-using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 
 namespace WpfApp
 {
@@ -14,7 +9,7 @@ namespace WpfApp
     {
         private void OnStartup(object sender, EventArgs e)
         {
-            var startUpWindow = new W_Admin();
+            var startUpWindow = new W_Login();
             startUpWindow.Show();
         }
     }
