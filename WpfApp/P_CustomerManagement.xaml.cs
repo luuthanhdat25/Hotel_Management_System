@@ -1,15 +1,15 @@
 ﻿using BusinessObjects;
-using DataAccess.Repository;
+using DataAccess.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace LuuThanhDatWPF
 {
-	/// <summary>
-	/// Interaction logic for P_CustomerManagement.xaml
-	/// </summary>
-	public partial class P_CustomerManagement : Page
+    /// <summary>
+    /// Interaction logic for P_CustomerManagement.xaml
+    /// </summary>
+    public partial class P_CustomerManagement : Page
     {
         private Customer currentSelect;
 		private readonly ICustomerRepository customerRepository;

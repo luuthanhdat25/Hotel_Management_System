@@ -20,7 +20,7 @@ namespace BusinessObject
         [Required]
         public int CustomerId { get; set; }
 
-        [ForeignKey("CustomerId")]
+        [ForeignKey(nameof(CustomerId))]
         public Customer Customer { get; set; }
     }
 }

@@ -7,6 +7,7 @@ namespace DataAccess
 {
     public class AppDbContext : DbContext
     {
+        public DbSet<Account> Accounts { get; set; }
         public DbSet<Customer> Customers { get; set; }
 
         public DbSet<Room> Rooms { get; set; }
@@ -55,7 +56,7 @@ namespace DataAccess
                 new Room
                 {
                     RoomId = 1,
-                    RoomNumber = "101",
+                    RoomName = "101",
                     RoomDescription = "Standard room with queen bed",
                     RoomMaxCapacity = 2,
                     RoomStatus = RoomStatus.Active,
@@ -65,7 +66,7 @@ namespace DataAccess
                 new Room
                 {
                     RoomId = 2,
-                    RoomNumber = "202",
+                    RoomName = "202",
                     RoomDescription = "Deluxe room with king bed and balcony",
                     RoomMaxCapacity = 3,
                     RoomStatus = RoomStatus.Active,
@@ -83,7 +84,7 @@ namespace DataAccess
                     Telephone = "0123456789",
                     EmailAddress = "nguyenvana@example.com",
                     CustomerBirthday = new DateOnly(1990, 1, 1),
-                    CustomerStatus = CustomerStatus.Active
+                    CustomerStatus = AccountStatus.Active
                 },
                 new Customer
                 {
@@ -93,7 +94,7 @@ namespace DataAccess
                     Telephone = "0987654321",
                     EmailAddress = "tranthib@example.com",
                     CustomerBirthday = new DateOnly(1985, 5, 15),
-                    CustomerStatus = CustomerStatus.Active
+                    CustomerStatus = AccountStatus.Active
                 }
             );
         }

@@ -13,7 +13,7 @@ namespace BusinessObjects
 
         [Required]
         [StringLength(50)]
-        public string RoomNumber { get; set; }
+        public string RoomName { get; set; }
 
         [Required]
         [StringLength(220)]
@@ -37,12 +37,13 @@ namespace BusinessObjects
 
 		public override string ToString()
 		{
-			return $"{{{nameof(RoomId)}={RoomId.ToString()}, {nameof(RoomNumber)}={RoomNumber}, {nameof(RoomDescription)}={RoomDescription}, {nameof(RoomMaxCapacity)}={RoomMaxCapacity.ToString()}, {nameof(RoomStatus)}={RoomStatus.ToString()}, {nameof(RoomPricePerDate)}={RoomPricePerDate.ToString()}, {nameof(RoomTypeId)}={RoomTypeId.ToString()}, {nameof(RoomType)}={RoomType}}}";
+			return $"{{{nameof(RoomId)}={RoomId.ToString()}, {nameof(RoomName)}={RoomName}, {nameof(RoomDescription)}={RoomDescription}, {nameof(RoomMaxCapacity)}={RoomMaxCapacity.ToString()}, {nameof(RoomStatus)}={RoomStatus.ToString()}, {nameof(RoomPricePerDate)}={RoomPricePerDate.ToString()}, {nameof(RoomTypeId)}={RoomTypeId.ToString()}, {nameof(RoomType)}={RoomType}}}";
 		}
 	}
 
     public enum RoomStatus
     {
-        Active, Deleted
+        Active, 
+        Deleted
     }
 }

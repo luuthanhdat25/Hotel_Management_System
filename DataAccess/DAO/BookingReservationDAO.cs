@@ -19,21 +19,12 @@ namespace DataAccess.DAO
             _appDbContext.SaveChanges();
         }
 
-        public List<BookingReservation> GetAll()
+        public IEnumerable<BookingReservation> GetAll()
         {
             return _appDbContext.BookingReservations
                 .Include(br => br.Customer) 
                 .ToList();
         }
-
-
-        public BookingReservation GetById(int id)
-        {
-            return _appDbContext.BookingReservations
-                .Include(br => br.Customer)  
-                .FirstOrDefault(bookingReservation => bookingReservation.BookingReservationId == id);
-        }
-
 
         public void Update(BookingReservation entity)
         {

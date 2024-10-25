@@ -1,5 +1,6 @@
 ﻿using BusinessObject;
 using DataAccess.DAO;
+using DataAccess.Repository.Interface;
 
 namespace DataAccess.Repository
 {
@@ -17,21 +18,27 @@ namespace DataAccess.Repository
             _bookingReservationDAO.Delete(entity);
         }
 
-        public List<BookingReservation> GetAll()
+        public IEnumerable<BookingReservation> GetAll()
         {
             return _bookingReservationDAO.GetAll();
         }
 
-        public List<BookingReservation> GetByCustomerId(int id)
+        public IEnumerable<BookingReservation> GetByCustomerId(int id)
         {
             return (from bookingReservation in _bookingReservationDAO.GetAll()
                     where bookingReservation.CustomerId == id
-                    select bookingReservation).ToList();
+                    select bookingReservation);
         }
 
-        public BookingReservation GetById(int id)
+        public BookingReservation? GetById(int id)
         {
-            return _bookingReservationDAO.GetById(id);
+            return _bookingReservationDAO.GetAll()
+                .FirstOrDefault(bookRe => bookRe.BookingReservationId == id);
+        }
+
+        public void Update(BookingReservation entity)
+        {
+            _bookingReservationDAO.Update(entity);
         }
     }
 }

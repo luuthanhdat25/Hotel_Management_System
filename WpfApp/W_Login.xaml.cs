@@ -1,5 +1,5 @@
 ﻿using BusinessObjects;
-using DataAccess.Repository;
+using DataAccess.Repository.Interface;
 using LuuThanhDatWPF;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.RegularExpressions;

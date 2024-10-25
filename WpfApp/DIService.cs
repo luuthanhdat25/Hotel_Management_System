@@ -1,6 +1,7 @@
 ﻿using DataAccess;
 using DataAccess.DAO;
 using DataAccess.Repository;
+using DataAccess.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using WpfApp;
 

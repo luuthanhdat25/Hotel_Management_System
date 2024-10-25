@@ -24,14 +24,9 @@ namespace DataAccess.DAO
             _appDbContext.SaveChanges();
         }
 
-        public List<BookingDetail> GetAll()
+        public IEnumerable<BookingDetail> GetAll()
         {
-            return _appDbContext.BookingDetails.ToList();
-        }
-
-        public BookingDetail GetById(int id)
-        {
-            return null;
+            return _appDbContext.BookingDetails;
         }
 
         public void Update(BookingDetail entity)

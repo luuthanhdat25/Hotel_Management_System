@@ -1,5 +1,5 @@
 ﻿using BusinessObjects;
-using DataAccess.Repository;
+using DataAccess.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,7 +27,7 @@ namespace LuuThanhDatWPF
         public void UpdateRoomSelected()
         {
             tbId.Text = currentSelect.RoomId.ToString();
-            tbRoomNumber.Text = currentSelect.RoomNumber;
+            tbRoomNumber.Text = currentSelect.RoomName;
             tbDescription.Text = currentSelect.RoomDescription;
             tbMaxCapacity.Text = currentSelect.RoomMaxCapacity.ToString();
             tbStatus.Text = currentSelect.RoomStatus.ToString();
@@ -44,7 +44,7 @@ namespace LuuThanhDatWPF
                 if (selectedEntiry != null)
                 {
                     tbId.Text = selectedEntiry.RoomId.ToString();
-                    tbRoomNumber.Text = selectedEntiry.RoomNumber;
+                    tbRoomNumber.Text = selectedEntiry.RoomName;
                     tbDescription.Text = selectedEntiry.RoomDescription;
                     tbMaxCapacity.Text = selectedEntiry.RoomMaxCapacity.ToString();
                     tbStatus.Text = selectedEntiry.RoomStatus.ToString();

@@ -1,6 +1,6 @@
 ﻿using BusinessObject;
 using BusinessObjects;
-using DataAccess.Repository;
+using DataAccess.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -189,7 +189,7 @@ namespace LuuThanhDatWPF
                 return;
             }
 
-            List<Room> roomList = _roomRepository.GetActiveList();
+            List<Room> roomList = _roomRepository.GetAllActive();
             List<BookingDetail> bookingDetailHistoryList = _bookDetailRepository.GetAll();
 
             if(roomType != null)
