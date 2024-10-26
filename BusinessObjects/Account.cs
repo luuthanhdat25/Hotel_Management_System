@@ -18,7 +18,7 @@ namespace BusinessObject
         public string Password { get; set; }
 
         [Required]
-        public AccountType accountType { get; set; }
+        public AccountType AccountType { get; set; }
 
         [Required]
         public AccountStatus AccountStatus { get; set; }
