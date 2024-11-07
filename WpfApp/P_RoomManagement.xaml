@@ -68,7 +68,7 @@
 
         <StackPanel Grid.Row="9" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
             <TextBox x:Name="tbSearchbyText" MinWidth="300" materialDesign:HintAssist.Hint="Search" IsEnabled="True" Grid.Row="4" Grid.Column="1" Margin="5" Width="500"/>
-            <Button Content="Search by ID" Height="30" Click="btn_SearchById" Margin="5"/>
+            <Button Content="Search by Name" Height="30" Click="btn_SearchByName" Margin="5"/>
         </StackPanel>
 
         <DataGrid x:Name="dataGrid"

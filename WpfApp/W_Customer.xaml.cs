@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using WpfApp;
+using WPFApp;
 
 namespace LuuThanhDatWPF
 {
@@ -12,6 +13,7 @@ namespace LuuThanhDatWPF
     {
         private readonly P_CustomerProfile customerProfilePage;
         private readonly P_CustomerReservationHistory reservationHistoryPage;
+        private readonly P_CustomerBookRoom customerBookRoomPage;
 
         public W_Customer(Customer customer)
         {
@@ -19,6 +21,7 @@ namespace LuuThanhDatWPF
 
             customerProfilePage = new P_CustomerProfile(customer);
             reservationHistoryPage = new P_CustomerReservationHistory(customer);
+            customerBookRoomPage = new P_CustomerBookRoom(customer);
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -34,17 +37,22 @@ namespace LuuThanhDatWPF
                     break;
                
                 case 1:
+                    customerBookRoomPage.Reset();
+                    ContentFrame.Navigate(customerBookRoomPage);
+                    break;
+                
+                case 2:
                     reservationHistoryPage.Reset();
                     ContentFrame.Navigate(reservationHistoryPage);
                     break;
 
-                case 2:
+                case 3:
                     W_Login loginWindow = new W_Login();
                     loginWindow.Show();
                     this.Close();
                     break;
 
-                case 3:
+                case 4:
                     this.Close();
                     break;
             }

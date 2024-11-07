@@ -94,7 +94,7 @@ namespace LuuThanhDatWPF
             }
 		}
 
-        private void btn_SearchById(object sender, RoutedEventArgs e)
+        private void btn_SearchByName(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(tbSearchbyText.Text))
             {
@@ -102,28 +102,11 @@ namespace LuuThanhDatWPF
             }
             else
             {
-				int id;
-				try
-				{
-					id = int.Parse(tbSearchbyText.Text);
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show(ex.Message, "Error");
-					throw;
-				}
+			    string name = tbSearchbyText.Text;
 
+				var rooms = _roomRepository.GetAllByRoomName(name).ToList();
 
-				Room room = _roomRepository.GetById(id);
-
-				if (room == null)
-				{
-					MessageBox.Show("Not find");
-				}
-				else
-				{
-					dataGrid.ItemsSource = new List<Room>() { room };
-				}
+				dataGrid.ItemsSource = rooms;
 			}
         }
     }

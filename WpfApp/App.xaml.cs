@@ -13,9 +13,9 @@ namespace WpfApp
     {
         private void OnStartup(object sender, EventArgs e)
         {
-            IAccountRepository repo = DIService.Instance.ServiceProvider.GetService<IAccountRepository>();  
-            //var startUpWindow = new W_Login();
-            var startUpWindow = new W_Admin(repo.GetByEmail("admin@gmail.com"));
+            //IAccountRepository repo = DIService.Instance.ServiceProvider.GetService<IAccountRepository>();  
+            var startUpWindow = new W_Login();
+            //var startUpWindow = new W_Admin(repo.GetByEmail("admin@gmail.com"));
             startUpWindow.Show();
         }
     }
