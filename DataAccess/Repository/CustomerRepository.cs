@@ -1,6 +1,7 @@
-﻿using BusinessObjects;
+﻿using BusinessObject;
+using BusinessObjects;
 using DataAccess.DAO;
-using Microsoft.Extensions.Configuration;
+using DataAccess.Repository.Interface;
 
 namespace DataAccess.Repository
 {
@@ -13,68 +14,45 @@ namespace DataAccess.Repository
             _customerDAO.Add(customer);
         }
 
-        public Customer FindByEmail(string email)
+        public void Delete(Customer entity)
         {
-            return (from customer in _customerDAO.GetAll()
-                    where customer.EmailAddress.ToLower().Equals(email.ToLower())
-                    select customer).FirstOrDefault();
+            _customerDAO.Delete(entity);
         }
 
-        public Customer FindByEmailAndPassword(string email, string password)
-        {
-            return (from customer in _customerDAO.GetAll()
-                    where customer.EmailAddress.ToLower().Equals(email.ToLower()) && customer.Password.Equals(password)
-                    select customer).FirstOrDefault();
-        }
-
-        public List<Customer> FindActiveByName(string name)
+        public IEnumerable<Customer> GetAllActiveByName(string name)
 		{
 			return (from customer in _customerDAO.GetAll() 
-					where customer.CustomerFullName.ToLower().Contains(name.ToLower())	&& customer.CustomerStatus == CustomerStatus.Active
-					select customer).ToList();
+					where customer.CustomerFullName.ToLower().Contains(name.ToLower())	&& customer.Account.AccountStatus == AccountStatus.Active
+					select customer);
 		}
 
-        public List<Customer> GetActiveList()
+        public IEnumerable<Customer> GetAllByName(string name)
         {
             return (from customer in _customerDAO.GetAll()
-                    where customer.CustomerStatus == CustomerStatus.Active
-                    select customer).ToList();
+                    where customer.CustomerFullName.ToLower().Contains(name.ToLower())
+                    select customer);
         }
 
-        public List<Customer> GetAll()
+        public IEnumerable<Customer> GetActiveList()
+        {
+            return (from customer in _customerDAO.GetAll()
+                    where customer.Account.AccountStatus == AccountStatus.Active
+                    select customer);
+        }
+
+        public IEnumerable<Customer> GetAll()
 		{
 			return _customerDAO.GetAll();
 		}
-
-        public bool IsAdmin(string email, string password)
-        {
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory()) 
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-            IConfiguration configuration = builder.Build();
-
-            string adminEmail = configuration["AdminAccount:Email"];
-            string adminPassword = configuration["AdminAccount:Password"];
-
-            return email.Equals(adminEmail, StringComparison.OrdinalIgnoreCase) && password.Equals(adminPassword);
-        }
 
         public void Update(Customer customer)
         {
             _customerDAO.Update(customer);
         }
 
-        public void UpdateCustomerStatus(Customer customer, CustomerStatus customerStatus)
-		{
-			customer.CustomerStatus = customerStatus;
-			_customerDAO.Update(customer);
-		}
-
-        public List<Customer> FindByName(string name)
+        public Customer? GetByAccountId(int accountId)
         {
-            return (from customer in _customerDAO.GetAll()
-                    where customer.CustomerFullName.ToLower().Contains(name.ToLower())
-                    select customer).ToList();
+            return _customerDAO.GetAll().FirstOrDefault(customer => customer.AccountId == accountId);
         }
     }
 }

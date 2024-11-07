@@ -1,5 +1,5 @@
 ﻿using BusinessObject;
-using DataAccess.Repository;
+using DataAccess.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace LuuThanhDatWPF
 
             BookingReservation bookingReservation = _bookingReservationRepository.GetById(bookingReservationId);
             tbCustomerFullName.Text = bookingReservation.Customer.CustomerFullName;
-            tbEmail.Text = bookingReservation.Customer.EmailAddress;
+            tbEmail.Text = bookingReservation.Customer.Account.EmailAddress;
             dg_BookDetail.ItemsSource = _bookDetailRepository.GetByBookingReservationId(bookingReservationId);
             tbTotalPrice.Text = bookingReservation.TotalPrice.ToString();
         }

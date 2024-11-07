@@ -1,15 +1,15 @@
 ﻿using BusinessObject;
 using BusinessObjects;
-using DataAccess.Repository;
+using DataAccess.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
 namespace LuuThanhDatWPF
 {
-	/// <summary>
-	/// Interaction logic for W_CreateRoom.xaml
-	/// </summary>
-	public partial class W_CreateRoom : Window
+    /// <summary>
+    /// Interaction logic for W_CreateRoom.xaml
+    /// </summary>
+    public partial class W_CreateRoom : Window
     {
 		private readonly IRoomTypeRepository _roomTypeRepository;
 		private readonly IRoomRepository _roomRepository;
@@ -22,7 +22,7 @@ namespace LuuThanhDatWPF
 			_roomTypeRepository = DIService.Instance.ServiceProvider.GetService<IRoomTypeRepository>();
 			this.roomManagementPage = roomManagement;
 
-			List<RoomType> roomTypes = _roomTypeRepository.GetAll();
+			List<RoomType> roomTypes = _roomTypeRepository.GetAll().ToList();
 			cb_RoomType.ItemsSource = roomTypes;
 		}
 
@@ -68,7 +68,7 @@ namespace LuuThanhDatWPF
 
 			Room newRoom = new Room
 			{
-				RoomNumber = roomnNumber,
+				RoomName = roomnNumber,
 				RoomDescription = roomDesciption,
 				RoomMaxCapacity = maxCapacity,
 				RoomPricePerDate = pricePerDate,

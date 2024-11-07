@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.DAO
 {
@@ -18,16 +19,9 @@ namespace DataAccess.DAO
             _appDbContext.SaveChanges();
         }
 
-		public List<Customer> GetAll()
+		public IEnumerable<Customer> GetAll()
 		{
-			return _appDbContext.Customers.ToList();
-		}
-
-		public Customer GetById(int id)
-		{
-			return (from customer in _appDbContext.Customers
-					where customer.CustomerId == id
-					select customer).FirstOrDefault();
+			return _appDbContext.Customers.Include(customer => customer.Account);
 		}
 
 		public void Update(Customer entity)

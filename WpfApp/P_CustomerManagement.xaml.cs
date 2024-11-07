@@ -1,23 +1,26 @@
-﻿using BusinessObjects;
-using DataAccess.Repository;
+﻿using BusinessObject;
+using BusinessObjects;
+using DataAccess.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace LuuThanhDatWPF
 {
-	/// <summary>
-	/// Interaction logic for P_CustomerManagement.xaml
-	/// </summary>
-	public partial class P_CustomerManagement : Page
+    /// <summary>
+    /// Interaction logic for P_CustomerManagement.xaml
+    /// </summary>
+    public partial class P_CustomerManagement : Page
     {
         private Customer currentSelect;
 		private readonly ICustomerRepository customerRepository;
+        private readonly IAccountRepository accountRepository;
 
 		public P_CustomerManagement()
         {
             InitializeComponent();
 			customerRepository = DIService.Instance.ServiceProvider.GetService<ICustomerRepository>();
+            accountRepository = DIService.Instance.ServiceProvider.GetService<IAccountRepository>();
 
 			UpdateDataGrid();
         }
@@ -40,18 +43,18 @@ namespace LuuThanhDatWPF
                     tbId.Text = selectedEntiry.CustomerId.ToString();
                     tbFullName.Text = selectedEntiry.CustomerFullName;
                     tbTelephone.Text = selectedEntiry.Telephone;
-                    tbEmail.Text = selectedEntiry.EmailAddress;
+                    tbEmail.Text = selectedEntiry.Account.EmailAddress;
                     tbBirthday.Text = selectedEntiry.CustomerBirthday.ToString();
-                    tbStatus.Text = selectedEntiry.CustomerStatus.ToString();
+                    tbStatus.Text = selectedEntiry.Account.AccountStatus.ToString();
 
                     currentSelect = selectedEntiry;
-					if (selectedEntiry.CustomerStatus.ToString() == CustomerStatus.Active.ToString())
+					if (selectedEntiry.Account.AccountStatus == AccountStatus.Active)
 					{
-						btn_SwitchStatus.Content = CustomerStatus.Disable.ToString();
+						btn_SwitchStatus.Content = AccountStatus.Disable.ToString();
 					}
 					else
 					{
-						btn_SwitchStatus.Content = CustomerStatus.Active.ToString();
+						btn_SwitchStatus.Content = AccountStatus.Active.ToString();
 					}
 				}
             }
@@ -61,20 +64,25 @@ namespace LuuThanhDatWPF
         {
 			if (currentSelect == null) return;
 
-            if(btn_SwitchStatus.Content.ToString() == CustomerStatus.Active.ToString())
+            if(btn_SwitchStatus.Content.ToString() == AccountStatus.Active.ToString())
             {
-				btn_SwitchStatus.Content = CustomerStatus.Disable.ToString();
-				customerRepository.UpdateCustomerStatus(currentSelect, CustomerStatus.Active);
-				tbStatus.Text = currentSelect.CustomerStatus.ToString();
+				btn_SwitchStatus.Content = AccountStatus.Disable.ToString();
+                Account accountUpdate = currentSelect.Account;
+                accountUpdate.AccountStatus = AccountStatus.Active;
+                accountRepository.Update(accountUpdate);
+				tbStatus.Text = accountUpdate.AccountStatus.ToString();
 			}
             else
             {
 				MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure?", "Disable Customer Confirm?", MessageBoxButton.YesNo);
 				if (messageBoxResult == MessageBoxResult.Yes)
                 {
-				    btn_SwitchStatus.Content = CustomerStatus.Active.ToString();
-				    customerRepository.UpdateCustomerStatus(currentSelect, CustomerStatus.Disable);
-				    tbStatus.Text = currentSelect.CustomerStatus.ToString();
+				    btn_SwitchStatus.Content = AccountStatus.Active.ToString();
+                    Account accountUpdate = currentSelect.Account;
+                    accountUpdate.AccountStatus = AccountStatus.Disable;
+
+                    accountRepository.Update(accountUpdate);
+                    tbStatus.Text = accountUpdate.AccountStatus.ToString();
 				}
 			}
             UpdateDataGrid();
@@ -94,7 +102,7 @@ namespace LuuThanhDatWPF
             }
             else
             {
-                dataGrid.ItemsSource = customerRepository.FindByName(tbSearchbyText.Text);
+                dataGrid.ItemsSource = customerRepository.GetAllByName(tbSearchbyText.Text);
             }
         }
     }

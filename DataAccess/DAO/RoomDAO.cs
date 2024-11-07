@@ -19,19 +19,10 @@ namespace DataAccess.DAO
             _appDbContext.SaveChanges();
         }
 
-        public List<Room> GetAll()
+        public IEnumerable<Room> GetAll()
         {
-            return _appDbContext.Rooms
-                .Include(r => r.RoomType)
-                .ToList();
+            return _appDbContext.Rooms.Include(r => r.RoomType);
         }
-
-        public Room GetById(int id)
-		{
-			return (from room in _appDbContext.Rooms
-					where room.RoomId == id
-					select room).FirstOrDefault();
-		}
 
 		public void Update(Room entity)
 		{

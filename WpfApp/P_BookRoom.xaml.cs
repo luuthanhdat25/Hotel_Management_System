@@ -1,11 +1,12 @@
 ﻿using BusinessObject;
 using BusinessObjects;
-using DataAccess.Repository;
+using DataAccess.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace LuuThanhDatWPF
 {
@@ -33,7 +34,7 @@ namespace LuuThanhDatWPF
             _bookDetailRepository = DIService.Instance.ServiceProvider.GetService<IBookingDetailRepository>();
             _bookingReservationRepository = DIService.Instance.ServiceProvider.GetService<IBookingReservationRepository>();
 
-            List<RoomType> roomTypes = _roomTypeRepository.GetAll();
+            List<RoomType> roomTypes = _roomTypeRepository.GetAll().ToList();
             cb_RoomType.ItemsSource = roomTypes;
 
             bookingDetailList.CollectionChanged += UpdateTotalPrice;
@@ -142,7 +143,7 @@ namespace LuuThanhDatWPF
             }
             else
             {
-                dg_Customer.ItemsSource = _customerRepository.FindActiveByName(tbSearchCustomerByName.Text);
+                dg_Customer.ItemsSource = _customerRepository.GetAllActiveByName(tbSearchCustomerByName.Text);
             }
         }
 
@@ -157,7 +158,7 @@ namespace LuuThanhDatWPF
                 {
 
                     tbCustomerFullName.Text = selectedEntiry.CustomerFullName;
-                    tbEmail.Text = selectedEntiry.EmailAddress;
+                    tbEmail.Text = selectedEntiry.Account.EmailAddress;
 
                     currentCustomer = selectedEntiry;
                 }
@@ -189,8 +190,8 @@ namespace LuuThanhDatWPF
                 return;
             }
 
-            List<Room> roomList = _roomRepository.GetActiveList();
-            List<BookingDetail> bookingDetailHistoryList = _bookDetailRepository.GetAll();
+            List<Room> roomList = _roomRepository.GetAllActive().ToList();
+            List<BookingDetail> bookingDetailHistoryList = _bookDetailRepository.GetAll().ToList();
 
             if(roomType != null)
             {
@@ -231,57 +232,71 @@ namespace LuuThanhDatWPF
                 if (selectedEntiry != null)
                 {
                     tbRoomId.Text = "Room: " + selectedEntiry.RoomId.ToString();
-
+                    tbRoomName.Text = selectedEntiry.RoomName;
                     currentRoom = selectedEntiry;
                 }
             }
         }
 
-        // Event for 'Add Room' button to add room details to booking
-        private void btn_AddRoom_onClick(object sender, RoutedEventArgs e)
+        private void dgRoom_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (currentRoom == null) return;
-            DateTime? startDate = dp_StarDate.SelectedDate;
-            DateTime? endDate = dp_EndDate.SelectedDate;
-
-            if (startDate == null || endDate == null)
+            if (dg_Room.SelectedItem is Room selectedRoom)
             {
-                MessageBox.Show("Please choose Start Date and End Date!");
-                return;
-            }
-
-            if (startDate.Value.Date < DateTime.Now.Date)
-            {
-                MessageBox.Show("Start Date must be today or in the future!");
-                return;
-            }
-
-            if (startDate.Value.CompareTo(endDate.Value) > 0)
-            {
-                MessageBox.Show("Invalid Pick Date, try again!");
-                return;
-            }
-
-            DateOnly startDateOnly = DateOnly.FromDateTime(startDate.Value);
-            DateOnly endDateOnly = DateOnly.FromDateTime(endDate.Value);
-
-            if(IsOverLapInReservation(startDateOnly, endDateOnly))
-            {
-                MessageBox.Show($"Room {currentRoom.RoomId} from {startDateOnly} to {endDateOnly} are aleady book");
-            }
-            else
-            {
-                BookingDetail bookingDetail = new BookingDetail()
+                if (selectedRoom != null)
                 {
-                    RoomId = currentRoom.RoomId,
-                    Room = currentRoom,
-                    StartDate = startDateOnly,
-                    EndDate = endDateOnly,
-                    ActualPrice = (decimal)CalculateDaysBetween(startDateOnly, endDateOnly) * currentRoom.RoomPricePerDate
-                };
-                bookingDetailList.Add(bookingDetail);
+                    DateTime? startDate = dp_StarDate.SelectedDate;
+                    DateTime? endDate = dp_EndDate.SelectedDate;
+
+                    if (startDate == null || endDate == null)
+                    {
+                        MessageBox.Show("Please choose Start Date and End Date!");
+                        return;
+                    }
+
+                    if (startDate.Value.Date < DateTime.Now.Date)
+                    {
+                        MessageBox.Show("Start Date must be today or in the future!");
+                        return;
+                    }
+
+                    if (startDate.Value.CompareTo(endDate.Value) > 0)
+                    {
+                        MessageBox.Show("Invalid Pick Date, try again!");
+                        return;
+                    }
+
+                    DateOnly startDateOnly = DateOnly.FromDateTime(startDate.Value);
+                    DateOnly endDateOnly = DateOnly.FromDateTime(endDate.Value);
+
+                    if (IsOverLapInReservation(startDateOnly, endDateOnly))
+                    {
+                        MessageBox.Show($"Room {selectedRoom.RoomId} from {startDateOnly} to {endDateOnly} is already booked.");
+                    }
+                    else
+                    {
+                        var result = MessageBox.Show($"Do you want to add Room {selectedRoom.RoomId} to your booking from {startDateOnly} to {endDateOnly}?",
+                                                     "Confirm Booking",
+                                                     MessageBoxButton.YesNo,
+                                                     MessageBoxImage.Question);
+
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            BookingDetail bookingDetail = new BookingDetail()
+                            {
+                                RoomId = selectedRoom.RoomId,
+                                Room = selectedRoom,
+                                StartDate = startDateOnly,
+                                EndDate = endDateOnly,
+                                ActualPrice = (decimal)CalculateDaysBetween(startDateOnly, endDateOnly) * selectedRoom.RoomPricePerDate
+                            };
+                            bookingDetailList.Add(bookingDetail);
+                        }
+                    }
+                }
             }
         }
+
+
 
         private bool IsOverLapInReservation(DateOnly startDate, DateOnly endDate)
         {

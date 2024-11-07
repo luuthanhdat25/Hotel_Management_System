@@ -1,6 +1,6 @@
 ﻿using BusinessObject;
 using BusinessObjects;
-using DataAccess.Repository;
+using DataAccess.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
@@ -52,7 +52,7 @@ namespace LuuThanhDatWPF
             DateOnly startDateOnly = DateOnly.FromDateTime(startDate.Value);
             DateOnly endDateOnly = DateOnly.FromDateTime(endDate.Value);
 
-            List<BookingReservation> bookingReservationList = _bookingReservationRepository.GetByCustomerId(currentCustomer.CustomerId);
+            List<BookingReservation> bookingReservationList = _bookingReservationRepository.GetAllByCustomerId(currentCustomer.CustomerId).ToList();
 
             bookingReservationList = (from bookingReservation in bookingReservationList
                                       where bookingReservation.BookingDate >= startDateOnly && bookingReservation.BookingDate <= endDateOnly

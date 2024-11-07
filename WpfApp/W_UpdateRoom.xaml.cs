@@ -1,15 +1,15 @@
 ﻿using BusinessObject;
 using BusinessObjects;
-using DataAccess.Repository;
+using DataAccess.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
 namespace LuuThanhDatWPF
 {
-	/// <summary>
-	/// Interaction logic for W_UpdateRoom.xaml
-	/// </summary>
-	public partial class W_UpdateRoom : Window
+    /// <summary>
+    /// Interaction logic for W_UpdateRoom.xaml
+    /// </summary>
+    public partial class W_UpdateRoom : Window
 	{
 		private readonly IRoomTypeRepository _roomTypeRepository;
 		private readonly IRoomRepository _roomRepository;
@@ -26,10 +26,10 @@ namespace LuuThanhDatWPF
 			this.roomManagementPage = roomManagement;
 
 			cb_Status.ItemsSource = Enum.GetValues(typeof(RoomStatus));
-			List<RoomType> roomTypes = _roomTypeRepository.GetAll();
+			List<RoomType> roomTypes = _roomTypeRepository.GetAll().ToList();
 			cb_RoomType.ItemsSource = roomTypes;
 
-			tb_RoomNumber.Text = room.RoomNumber;
+			tb_RoomNumber.Text = room.RoomName;
 			tb_RoomDescription.Text = room.RoomDescription;
 			tb_RoomMaxCapacity.Text = room.RoomMaxCapacity.ToString();
 			tb_PricePerDate.Text = room.RoomPricePerDate.ToString();
@@ -78,7 +78,7 @@ namespace LuuThanhDatWPF
 			RoomStatus roomStatus = (RoomStatus)cb_Status.SelectedItem;
 			RoomType roomType = (RoomType)cb_RoomType.SelectedItem;
 
-			room.RoomNumber = roomnNumber;
+			room.RoomName = roomnNumber;
 			room.RoomDescription = roomDesciption;
 			room.RoomMaxCapacity = maxCapacity;
 			room.RoomPricePerDate = pricePerDate;

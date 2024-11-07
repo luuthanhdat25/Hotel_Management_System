@@ -41,7 +41,7 @@
         <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="Id" Grid.Row="1" Grid.Column="0" Margin="10"/>
         <TextBox x:Name="tbId" MinWidth="200" IsEnabled="False" Grid.Row="1" Grid.Column="1" Margin="10"/>
 
-        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="Room Number" Grid.Row="2" Grid.Column="0" Margin="10"/>
+        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="Room Name" Grid.Row="2" Grid.Column="0" Margin="10"/>
         <TextBox x:Name="tbRoomNumber" MinWidth="200"  IsEnabled="False" Grid.Row="2" Grid.Column="1" Margin="10"/>
 
         <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="Description" Grid.Row="3" Grid.Column="0" Margin="10"/>
@@ -83,7 +83,7 @@
               SelectionChanged="DataGrid_SelectionChanged" Margin="10">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding RoomId}" Header="Id" />
-                <DataGridTextColumn Binding="{Binding RoomNumber}" Header="Room Number" />
+                <DataGridTextColumn Binding="{Binding RoomName}" Header="Name" />
                 <DataGridTextColumn Binding="{Binding RoomDescription}" Header="Description" />
                 <DataGridTextColumn Binding="{Binding RoomMaxCapacity}" Header="Max Capacity" />
                 <DataGridTextColumn Binding="{Binding RoomPricePerDate}" Header="Price Per Date" />

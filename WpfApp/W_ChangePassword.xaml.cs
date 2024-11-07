@@ -1,5 +1,6 @@
-﻿using BusinessObjects;
-using DataAccess.Repository;
+﻿using BusinessObject;
+using BusinessObjects;
+using DataAccess.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
@@ -10,14 +11,14 @@ namespace LuuThanhDatWPF
     /// </summary>
     public partial class W_ChangePassword : Window
     {
-        private Customer customer;
-        private readonly ICustomerRepository _customerRepository;
+        private Account account;
+        private readonly IAccountRepository _accountRepository;
 
-        public W_ChangePassword(Customer customer)
+        public W_ChangePassword(Account account)
         {
             InitializeComponent();
-            this.customer = customer;
-            _customerRepository = DIService.Instance.ServiceProvider.GetService<ICustomerRepository>();
+            this.account = account;
+            _accountRepository = DIService.Instance.ServiceProvider.GetService<IAccountRepository>();
         }
 
         public void btn_submit(object sender, RoutedEventArgs e)
@@ -36,8 +37,8 @@ namespace LuuThanhDatWPF
             }
             else
             {
-                customer.Password = newPass;
-                _customerRepository.Update(customer);
+                account.Password = newPass;
+                _accountRepository.Update(account);
                 MessageBox.Show("Update Password Successfully!");
                 Close();
             }

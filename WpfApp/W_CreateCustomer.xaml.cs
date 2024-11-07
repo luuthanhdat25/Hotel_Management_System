@@ -1,5 +1,6 @@
-﻿using BusinessObjects;
-using DataAccess.Repository;
+﻿using BusinessObject;
+using BusinessObjects;
+using DataAccess.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -12,6 +13,7 @@ namespace LuuThanhDatWPF
     public partial class W_CreateCustomer : Window
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly IAccountRepository _accountRepository;
         private P_CustomerManagement customerManagementPage;
 
         public W_CreateCustomer(P_CustomerManagement customerManagementPage)
@@ -19,6 +21,7 @@ namespace LuuThanhDatWPF
             InitializeComponent();
             this.customerManagementPage = customerManagementPage;
             _customerRepository = DIService.Instance.ServiceProvider.GetService<ICustomerRepository>();
+            _accountRepository = DIService.Instance.ServiceProvider.GetService<IAccountRepository>();
         }
 
         public void btn_cancel(object sender, RoutedEventArgs e)
@@ -52,8 +55,8 @@ namespace LuuThanhDatWPF
             }
 
 
-            var customerFindByEmail = _customerRepository.FindByEmail(email);
-            if (customerFindByEmail != null)
+            var accountFindByEmail = _accountRepository.GetByEmail(email);
+            if (accountFindByEmail != null)
             {
                 MessageBox.Show(email + " already taken, choose another!");
                 return;
@@ -92,17 +95,31 @@ namespace LuuThanhDatWPF
                 return;
             }
 
+            Account newAccount = new Account
+            {
+                EmailAddress = email,
+                Password = password,
+                AccountType = AccountType.Customer,
+                AccountStatus = AccountStatus.Active
+            };
+
+            _accountRepository.Add(newAccount);
+            Account newAddedAccount = _accountRepository.GetByEmail(email);
+            if(newAddedAccount == null)
+            {
+                MessageBox.Show("add new account null");
+                return;
+            }
+
             Customer customer = new Customer
             {
                 CustomerFullName = fullName,
                 Telephone = telephone,
-                EmailAddress = email,
-                Password = password,
-                CustomerStatus = CustomerStatus.Active,
+                AccountId = newAddedAccount.AccountId,
+                Account = newAddedAccount,
                 CustomerBirthday = DateOnly.FromDateTime(birthday.Value)
             };
             
-
             _customerRepository.Add(customer);
 
             MessageBox.Show("Create new Customer successfully!");

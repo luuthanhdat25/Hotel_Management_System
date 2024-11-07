@@ -1,5 +1,5 @@
 ﻿using BusinessObject;
-using DataAccess.Repository;
+using DataAccess.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
@@ -53,7 +53,7 @@ namespace LuuThanhDatWPF
             DateOnly startDateReadOnly = DateOnly.FromDateTime(startDate.Value);
             DateOnly endDateReadOnly = DateOnly.FromDateTime(endDate.Value);
 
-            List<BookingReservation> bookingReservationList = _bookingReservationRepository.GetAll();  
+            List<BookingReservation> bookingReservationList = _bookingReservationRepository.GetAll().ToList();  
             var listStatic = new List<Static>();
 
             foreach (var bookingReservation in bookingReservationList)

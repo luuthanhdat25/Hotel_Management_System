@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using DataAccess.Repository.Interface;
+using LuuThanhDatWPF;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Identity.Client;
+using System.Windows;
 
 namespace WpfApp
 {
@@ -9,7 +13,9 @@ namespace WpfApp
     {
         private void OnStartup(object sender, EventArgs e)
         {
-            var startUpWindow = new W_Login();
+            IAccountRepository repo = DIService.Instance.ServiceProvider.GetService<IAccountRepository>();  
+            //var startUpWindow = new W_Login();
+            var startUpWindow = new W_Admin(repo.GetByEmail("admin@gmail.com"));
             startUpWindow.Show();
         }
     }

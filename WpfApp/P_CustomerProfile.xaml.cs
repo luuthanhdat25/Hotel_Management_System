@@ -1,5 +1,7 @@
 ﻿using BusinessObjects;
 using DataAccess.Repository;
+using DataAccess.Repository.Interface;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,11 +25,13 @@ namespace LuuThanhDatWPF
     public partial class P_CustomerProfile : Page
     {
         private Customer customer;
+        private readonly IAccountRepository _accountRepository;
 
         public P_CustomerProfile(Customer customer)
         {
             InitializeComponent();
             this.customer = customer;
+            _accountRepository = DIService.Instance.ServiceProvider.GetService<IAccountRepository>();
             UpdateVisual();
         }
 
@@ -39,7 +43,7 @@ namespace LuuThanhDatWPF
 
         private void btn_ChangePassword(object sender, RoutedEventArgs e)
         {
-            W_ChangePassword changePassword = new W_ChangePassword(customer);
+            W_ChangePassword changePassword = new W_ChangePassword(customer.Account);
             changePassword.Show();
         }
 
@@ -47,7 +51,7 @@ namespace LuuThanhDatWPF
         {
             tbFullName.Text = customer.CustomerFullName;
             tbTelephone.Text = customer.Telephone;
-            tbEmail.Text = customer.EmailAddress;
+            tbEmail.Text = customer.Account.EmailAddress;
             tbBirthday.Text = customer.CustomerBirthday.ToString();
         }
     }

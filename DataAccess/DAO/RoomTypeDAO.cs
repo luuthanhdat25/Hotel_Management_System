@@ -18,16 +18,9 @@ namespace DataAccess.DAO
             _appDbContext.SaveChanges();
         }
 
-        public List<RoomType> GetAll()
+        public IEnumerable<RoomType> GetAll()
 		{
-			return _appDbContext.RoomTypes.ToList();
-		}
-
-		public RoomType GetById(int id)
-		{
-			return (from roomType in _appDbContext.RoomTypes
-					where roomType.RoomTypeId == id
-					select roomType).FirstOrDefault();
+			return _appDbContext.RoomTypes;
 		}
 
 		public void Update(RoomType entity)

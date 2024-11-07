@@ -7,6 +7,7 @@ namespace DataAccess
 {
     public class AppDbContext : DbContext
     {
+        public DbSet<Account> Accounts { get; set; }
         public DbSet<Customer> Customers { get; set; }
 
         public DbSet<Room> Rooms { get; set; }
@@ -34,6 +35,12 @@ namespace DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Customer>()
+                .HasOne(customer => customer.Account)
+                .WithOne()
+                .HasForeignKey<Customer>(customer => customer.AccountId) 
+                .OnDelete(DeleteBehavior.Cascade); 
+
             modelBuilder.Entity<RoomType>().HasData(
                 new RoomType
                 {
@@ -55,7 +62,7 @@ namespace DataAccess
                 new Room
                 {
                     RoomId = 1,
-                    RoomNumber = "101",
+                    RoomName = "101",
                     RoomDescription = "Standard room with queen bed",
                     RoomMaxCapacity = 2,
                     RoomStatus = RoomStatus.Active,
@@ -65,7 +72,7 @@ namespace DataAccess
                 new Room
                 {
                     RoomId = 2,
-                    RoomNumber = "202",
+                    RoomName = "202",
                     RoomDescription = "Deluxe room with king bed and balcony",
                     RoomMaxCapacity = 3,
                     RoomStatus = RoomStatus.Active,
@@ -74,26 +81,49 @@ namespace DataAccess
                 }
             );
 
+            modelBuilder.Entity<Account>().HasData(
+                new Account
+                {
+                    AccountId = 1,
+                    EmailAddress = "admin@gmail.com",
+                    Password = "123",
+                    AccountType = AccountType.Admin,
+                    AccountStatus = AccountStatus.Active
+                },
+                new Account
+                {
+                    AccountId = 2,
+                    EmailAddress = "nguyenvana@gmail.com",
+                    Password = "123",
+                    AccountType = AccountType.Customer,
+                    AccountStatus = AccountStatus.Active
+                },
+                new Account
+                {
+                    AccountId = 3,
+                    EmailAddress = "tranthib@gmail.com",
+                    Password = "123",
+                    AccountType = AccountType.Admin,
+                    AccountStatus = AccountStatus.Active
+                }
+            );
+
             modelBuilder.Entity<Customer>().HasData(
                 new Customer
                 {
                     CustomerId = 1,
                     CustomerFullName = "Nguyen Van A",
-                    Password = "password123",
                     Telephone = "0123456789",
-                    EmailAddress = "nguyenvana@example.com",
                     CustomerBirthday = new DateOnly(1990, 1, 1),
-                    CustomerStatus = CustomerStatus.Active
+                    AccountId = 2,
                 },
                 new Customer
                 {
                     CustomerId = 2,
                     CustomerFullName = "Tran Thi B",
-                    Password = "password456",
                     Telephone = "0987654321",
-                    EmailAddress = "tranthib@example.com",
                     CustomerBirthday = new DateOnly(1985, 5, 15),
-                    CustomerStatus = CustomerStatus.Active
+                    AccountId = 3,
                 }
             );
         }

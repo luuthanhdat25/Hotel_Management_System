@@ -1,37 +1,43 @@
 ﻿using BusinessObjects;
 using DataAccess.DAO;
+using DataAccess.Repository.Interface;
 
 namespace DataAccess.Repository
 {
     public class BookingDetailRepository(BookingDetailDAO bookingDetailDAO) : IBookingDetailRepository
     {
-        private readonly BookingDetailDAO bookingDetailDAO = bookingDetailDAO;
+        private readonly BookingDetailDAO _bookingDetailDAO = bookingDetailDAO;
 
         public void Add(BookingDetail entity)
         {
-            bookingDetailDAO.Add(entity);
+            _bookingDetailDAO.Add(entity);
         }
 
         public void AddRange(List<BookingDetail> bookingDetailList)
         {
-            bookingDetailDAO.AddRange(bookingDetailList);
+            _bookingDetailDAO.AddRange(bookingDetailList);
         }
 
         public void Delete(BookingDetail entity)
         {
-            bookingDetailDAO.Delete(entity);
+            _bookingDetailDAO.Delete(entity);
         }
 
-        public List<BookingDetail> GetAll()
+        public IEnumerable<BookingDetail> GetAll()
         {
-            return bookingDetailDAO.GetAll();
+            return _bookingDetailDAO.GetAll();
         }
 
-        public List<BookingDetail> GetByBookingReservationId(int id)
+        public IEnumerable<BookingDetail> GetByBookingReservationId(int id)
         {
-            return (from bookingDetail in bookingDetailDAO.GetAll()
+            return (from bookingDetail in _bookingDetailDAO.GetAll()
                     where bookingDetail.BookingReservationId == id
-                    select bookingDetail).ToList();
+                    select bookingDetail);
+        }
+
+        public void Update(BookingDetail entity)
+        {
+            _bookingDetailDAO.Update(entity);
         }
     }
 }
