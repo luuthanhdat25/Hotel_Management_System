@@ -23,7 +23,7 @@ namespace DataAccess.Repository
             return _bookingReservationDAO.GetAll();
         }
 
-        public IEnumerable<BookingReservation> GetByCustomerId(int id)
+        public IEnumerable<BookingReservation> GetAllByCustomerId(int id)
         {
             return (from bookingReservation in _bookingReservationDAO.GetAll()
                     where bookingReservation.CustomerId == id

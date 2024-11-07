@@ -15,11 +15,12 @@ namespace LuuThanhDatWPF
         private readonly P_Static staticPage;
         private readonly P_BookRoom bookRoomPage;
         private readonly P_BookingReservation bookingReservation;
+        private Account account;
 
-        public W_Admin()
+        public W_Admin(Account account)
         {
             InitializeComponent();
-
+            this.account = account;
             customerManagementPage = new P_CustomerManagement();
 			roomManagementPage = new P_RoomManagement();
 			staticPage = new P_Static();

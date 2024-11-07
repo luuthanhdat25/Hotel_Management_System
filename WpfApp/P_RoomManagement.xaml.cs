@@ -22,7 +22,12 @@ namespace LuuThanhDatWPF
             UpdateDataGrid();
         }
 
-		public void UpdateDataGrid() => dataGrid.ItemsSource = _roomRepository.GetAll();
+        public void UpdateDataGrid()
+        {
+            var rooms = _roomRepository.GetAll().ToList(); 
+            dataGrid.ItemsSource = rooms; 
+        }
+
 
         public void UpdateRoomSelected()
         {

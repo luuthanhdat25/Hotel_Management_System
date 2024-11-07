@@ -6,8 +6,10 @@ namespace DataAccess.Repository.Interface
     {
         public IEnumerable<Customer> GetActiveList();
 
-        public IEnumerable<Customer> FindActiveByName(string name);
+        public IEnumerable<Customer> GetAllActiveByName(string name);
 
-        public IEnumerable<Customer> FindByName(string name);
+        public IEnumerable<Customer> GetAllByName(string name);
+
+        public Customer? GetByAccountId(int accountId);
     }
 }

@@ -26,7 +26,7 @@ namespace LuuThanhDatWPF
 			this.roomManagementPage = roomManagement;
 
 			cb_Status.ItemsSource = Enum.GetValues(typeof(RoomStatus));
-			List<RoomType> roomTypes = _roomTypeRepository.GetAll();
+			List<RoomType> roomTypes = _roomTypeRepository.GetAll().ToList();
 			cb_RoomType.ItemsSource = roomTypes;
 
 			tb_RoomNumber.Text = room.RoomName;

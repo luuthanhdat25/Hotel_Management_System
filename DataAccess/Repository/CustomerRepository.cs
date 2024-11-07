@@ -19,16 +19,18 @@ namespace DataAccess.Repository
             _customerDAO.Delete(entity);
         }
 
-        public IEnumerable<Customer> FindActiveByName(string name)
+        public IEnumerable<Customer> GetAllActiveByName(string name)
 		{
 			return (from customer in _customerDAO.GetAll() 
 					where customer.CustomerFullName.ToLower().Contains(name.ToLower())	&& customer.Account.AccountStatus == AccountStatus.Active
 					select customer);
 		}
 
-        public IEnumerable<Customer> FindByName(string name)
+        public IEnumerable<Customer> GetAllByName(string name)
         {
-            throw new NotImplementedException();
+            return (from customer in _customerDAO.GetAll()
+                    where customer.CustomerFullName.ToLower().Contains(name.ToLower())
+                    select customer);
         }
 
         public IEnumerable<Customer> GetActiveList()
@@ -46,6 +48,11 @@ namespace DataAccess.Repository
         public void Update(Customer customer)
         {
             _customerDAO.Update(customer);
+        }
+
+        public Customer? GetByAccountId(int accountId)
+        {
+            return _customerDAO.GetAll().FirstOrDefault(customer => customer.AccountId == accountId);
         }
     }
 }

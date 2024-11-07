@@ -1,4 +1,5 @@
-﻿using BusinessObjects;
+﻿using BusinessObject;
+using BusinessObjects;
 using DataAccess.Repository.Interface;
 using LuuThanhDatWPF;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,11 +14,13 @@ namespace WpfApp
     public partial class W_Login : Window
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly IAccountRepository _accountRepository;
 
         public W_Login()
         {
             InitializeComponent();
             _customerRepository = DIService.Instance.ServiceProvider.GetService<ICustomerRepository>();
+            _accountRepository = DIService.Instance.ServiceProvider.GetService<IAccountRepository>();
         }
 
         public void btn_Login_Click(object sender, RoutedEventArgs e)
@@ -42,15 +45,27 @@ namespace WpfApp
                 return;
             }
 
-            if (_customerRepository.IsAdmin(email, password))
+            Account existAccount = _accountRepository.GetByEmail(email);
+
+            if(existAccount == null)
             {
-                W_Admin adminWindow = new W_Admin();
+                MessageBox.Show("Email not exist, please try again!");
+                return;
+            }else if (!existAccount.Password.Equals(password))
+            {
+                MessageBox.Show("Wrong Password, please try again!");
+                return;
+            }
+
+            if (existAccount.AccountType == AccountType.Admin)
+            {
+                W_Admin adminWindow = new W_Admin(existAccount);
                 adminWindow.Show();
                 Close();
                 return;
             }
 
-            Customer customer = _customerRepository.FindByEmailAndPassword(email, password);
+            Customer customer = _customerRepository.GetByAccountId(existAccount.AccountId);
             if (customer == null)
             {
                 MessageBox.Show("Email or Password wrong!");
@@ -58,7 +73,7 @@ namespace WpfApp
             }
             else
             {
-                if(customer.CustomerStatus == CustomerStatus.Active)
+                if(existAccount.AccountStatus == AccountStatus.Active)
                 {
                     W_Customer customerWindown = new W_Customer(customer);
                     customerWindown.Show();

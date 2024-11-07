@@ -12,6 +12,7 @@ namespace LuuThanhDatWPF
     public partial class W_UpdateProfile : Window
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly IAccountRepository _accountRepository;
         private Customer customer;
         private P_CustomerProfile customerProfile;
 
@@ -22,8 +23,9 @@ namespace LuuThanhDatWPF
             this.customerProfile = customerProfile;
             tb_FullName.Text = customer.CustomerFullName;
             tb_Telephone.Text = customer.Telephone;
-            tb_EmailAddress.Text = customer.EmailAddress;
+            tb_EmailAddress.Text = customer.Account.EmailAddress;
             dp_Birthday.Text = customer.CustomerBirthday.ToString();
+            _accountRepository = DIService.Instance.ServiceProvider.GetService<IAccountRepository>();
             _customerRepository = DIService.Instance.ServiceProvider.GetService<ICustomerRepository>();
         }
 
@@ -44,8 +46,8 @@ namespace LuuThanhDatWPF
             string telephone = tb_Telephone.Text.Trim();
             string email = tb_EmailAddress.Text.Trim();
 
-            var customerFindByEmail = _customerRepository.FindByEmail(email);
-            if (customerFindByEmail != null && customerFindByEmail.CustomerId != customer.CustomerId) 
+            var existAccount = _accountRepository.GetByEmail(email);
+            if (existAccount != null && existAccount.AccountId != customer.CustomerId) 
             {
                 MessageBox.Show(email + " already taken, choose another!");
                 return;
@@ -87,9 +89,10 @@ namespace LuuThanhDatWPF
 
             customer.CustomerFullName = fullName;
             customer.Telephone = telephone;
-            customer.EmailAddress = email;
+            customer.Account.EmailAddress = email;
             customer.CustomerBirthday = DateOnly.FromDateTime(birthday.Value);
 
+            _accountRepository.Update(customer.Account);
             _customerRepository.Update(customer);
 
             MessageBox.Show("Profile updated successfully!");

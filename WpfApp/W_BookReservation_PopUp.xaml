@@ -47,12 +47,11 @@
               Margin="10">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding RoomId}" Header="Id" />
-                <DataGridTextColumn Binding="{Binding Room.RoomNumber}" Header="Room Number" />
+                <DataGridTextColumn Binding="{Binding Room.RoomName}" Header="Room Name" />
                 <DataGridTextColumn Binding="{Binding Room.RoomType.RoomTypeName}" Header="Room Type" />
                 <DataGridTextColumn Binding="{Binding StartDate}" Header="Start Date" />
                 <DataGridTextColumn Binding="{Binding EndDate}" Header="End Date" />
                 <DataGridTextColumn Binding="{Binding ActualPrice}" Header="Actual Price" />
-
             </DataGrid.Columns>
         </DataGrid>
 

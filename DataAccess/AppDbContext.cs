@@ -36,9 +36,10 @@ namespace DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Customer>()
-            .HasOne(staff => staff.Account)
-            .WithOne()
-            .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(customer => customer.Account)
+                .WithOne()
+                .HasForeignKey<Customer>(customer => customer.AccountId) 
+                .OnDelete(DeleteBehavior.Cascade); 
 
             modelBuilder.Entity<RoomType>().HasData(
                 new RoomType
@@ -83,7 +84,7 @@ namespace DataAccess
             modelBuilder.Entity<Account>().HasData(
                 new Account
                 {
-                    AccountId = 2,
+                    AccountId = 1,
                     EmailAddress = "admin@gmail.com",
                     Password = "123",
                     AccountType = AccountType.Admin,

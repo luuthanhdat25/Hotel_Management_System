@@ -45,12 +45,14 @@ namespace LuuThanhDatWPF
             services.AddSingleton<RoomTypeDAO>();
             services.AddSingleton<BookingDetailDAO>();
             services.AddSingleton<BookingReservationDAO>();
+            services.AddSingleton<AccountDAO>();
             
             services.AddSingleton<ICustomerRepository, CustomerRepository>();
             services.AddSingleton<IRoomRepository, RoomRepository>();
             services.AddSingleton<IRoomTypeRepository, RoomTypeRepository>();
             services.AddSingleton<IBookingDetailRepository, BookingDetailRepository>();
             services.AddSingleton<IBookingReservationRepository, BookingReservationRepository>();
+            services.AddSingleton<IAccountRepository, AccountRepository>();
         }
     }
 }

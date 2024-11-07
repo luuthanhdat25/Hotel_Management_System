@@ -78,9 +78,9 @@
                 <DataGridTextColumn Binding="{Binding CustomerId}" Header="Id" />
                 <DataGridTextColumn Binding="{Binding CustomerFullName}" Header="Full Name" />
                 <DataGridTextColumn Binding="{Binding Telephone}" Header="Telephone" />
-                <DataGridTextColumn Binding="{Binding EmailAddress}" Header="Email Address" />
+                <DataGridTextColumn Binding="{Binding Account.EmailAddress}" Header="Email Address" />
                 <DataGridTextColumn Binding="{Binding CustomerBirthday}" Header="Birthday" />
-                <DataGridTextColumn Binding="{Binding CustomerStatus}" Header="Status" />
+                <DataGridTextColumn Binding="{Binding Account.AccountStatus}" Header="Account Status" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

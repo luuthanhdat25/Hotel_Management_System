@@ -22,7 +22,7 @@ namespace LuuThanhDatWPF
 			_roomTypeRepository = DIService.Instance.ServiceProvider.GetService<IRoomTypeRepository>();
 			this.roomManagementPage = roomManagement;
 
-			List<RoomType> roomTypes = _roomTypeRepository.GetAll();
+			List<RoomType> roomTypes = _roomTypeRepository.GetAll().ToList();
 			cb_RoomType.ItemsSource = roomTypes;
 		}
 

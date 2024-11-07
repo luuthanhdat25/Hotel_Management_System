@@ -47,7 +47,7 @@ namespace LuuThanhDatWPF
             }
             else
             {
-                dg_Customer.ItemsSource = _customerRepository.FindActiveByName(tbSearchCustomerByName.Text);
+                dg_Customer.ItemsSource = _customerRepository.GetAllActiveByName(tbSearchCustomerByName.Text);
             }
         }
 
@@ -60,9 +60,9 @@ namespace LuuThanhDatWPF
                 if (selectedEntity != null)
                 {
                     tbCustomerFullName.Text = selectedEntity.CustomerFullName;
-                    tbEmail.Text = selectedEntity.EmailAddress;
+                    tbEmail.Text = selectedEntity.Account.EmailAddress;
 
-                    dg_BookingReservation.ItemsSource = _bookingReservationRepository.GetByCustomerId(selectedEntity.CustomerId);
+                    dg_BookingReservation.ItemsSource = _bookingReservationRepository.GetAllByCustomerId(selectedEntity.CustomerId);
 
                     dg_BookDetail.ItemsSource = null;
                     dp_StarDate.Text = dp_EndDate.Text = string.Empty;
@@ -111,7 +111,7 @@ namespace LuuThanhDatWPF
             DateOnly startDateOnly = DateOnly.FromDateTime(startDate.Value);
             DateOnly endDateOnly = DateOnly.FromDateTime(endDate.Value);
             
-            List<BookingReservation> bookingReservationList = _bookingReservationRepository.GetByCustomerId(currentCustomer.CustomerId);
+            List<BookingReservation> bookingReservationList = _bookingReservationRepository.GetAllByCustomerId(currentCustomer.CustomerId).ToList();
 
             bookingReservationList = (from bookingReservation in bookingReservationList
                                       where bookingReservation.BookingDate >= startDateOnly && bookingReservation.BookingDate <= endDateOnly
