@@ -49,7 +49,7 @@ namespace DataAccess.Repository
 
         public IEnumerable<Room> GetAllByRoomName(string roomName)
         {
-            return _roomDAO.GetAll().Where(room => room.RoomName.ToLower().Equals(roomName.ToLower()));
+            return _roomDAO.GetAll().Where(room => room.RoomName.Equals(roomName, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

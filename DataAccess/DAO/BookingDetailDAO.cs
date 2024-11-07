@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.DAO
 {
@@ -26,7 +27,7 @@ namespace DataAccess.DAO
 
         public IEnumerable<BookingDetail> GetAll()
         {
-            return _appDbContext.BookingDetails;
+            return _appDbContext.BookingDetails.Include(bookingDetail => bookingDetail.Room);
         }
 
         public void Update(BookingDetail entity)

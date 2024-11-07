@@ -38,6 +38,15 @@
             <TabItem Width="92" Height="90">
                 <TabItem.Header>
                     <StackPanel>
+                        <materialDesign:PackIcon Width="24" Height="24" Kind="Shopping" HorizontalAlignment="Center"/>
+                        <TextBlock HorizontalAlignment="Center" Text="Book Room" FontSize="15"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
+            <TabItem Width="92" Height="90">
+                <TabItem.Header>
+                    <StackPanel>
                         <materialDesign:PackIcon Width="24" Height="24" Kind="ClipboardTextClockOutline" HorizontalAlignment="Center"/>
                         <TextBlock HorizontalAlignment="Center" Text="Reservation history" FontSize="10"/>
                     </StackPanel>

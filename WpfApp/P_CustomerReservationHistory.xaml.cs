@@ -4,6 +4,7 @@ using DataAccess.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace LuuThanhDatWPF
 {
@@ -26,7 +27,7 @@ namespace LuuThanhDatWPF
 
         public void Reset()
         {
-            dg_BookingReservation.ItemsSource = _bookingReservationRepository.GetAll();
+            dg_BookingReservation.ItemsSource = _bookingReservationRepository.GetAll().ToList();
             
             dg_BookDetail.ItemsSource = null;
             dp_StarDate.Text = dp_EndDate.Text = string.Empty;
@@ -62,15 +63,16 @@ namespace LuuThanhDatWPF
             dg_BookDetail.ItemsSource = null;
         }
 
-        private void dgBookingReservation_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void dgBookingReservation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (sender is System.Windows.Controls.DataGrid dataGrid)
             {
-                var selectedEntiry = dataGrid.SelectedItem as BookingReservation;
-
-                if (selectedEntiry != null)
+                var selectedEntity = dataGrid.SelectedItem as BookingReservation;
+                if (selectedEntity != null)
                 {
-                    dg_BookDetail.ItemsSource = _bookDetailRepository.GetByBookingReservationId(selectedEntiry.BookingReservationId);
+                    dg_BookDetail.ItemsSource = _bookDetailRepository
+                        .GetByBookingReservationId(selectedEntity.BookingReservationId)
+                        .ToList();
                 }
             }
         }
