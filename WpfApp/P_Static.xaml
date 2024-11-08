@@ -71,22 +71,24 @@
         <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="Total" Grid.Row="3" Grid.Column="0" Margin="10" FontWeight="Bold"/>
         <TextBox x:Name="tbTotalPrice" MinWidth="100" IsEnabled="False" Grid.Row="3" Grid.Column="1" Margin="10" Grid.ColumnSpan="2"/>
 
-        <lvc:CartesianChart Name="Chart" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Margin="10">
+        <lvc:CartesianChart Name="Chart" Height="300" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Margin="10" Background="White">
             <lvc:CartesianChart.Series>
                 <lvc:LineSeries Values="{Binding Values}" LineSmoothness="1" StrokeThickness="10" 
-                                DataLabels="True" FontSize="20" Foreground="#6B303030"
-                                Stroke="White" Fill="Transparent" PointGeometrySize="0"/>
+                        DataLabels="True" FontSize="20" Foreground="Black"
+                        Stroke="#6B47A8" Fill="Transparent" PointGeometrySize="0"/>
             </lvc:CartesianChart.Series>
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis IsEnabled="False" ShowLabels="False"/>
+                <lvc:Axis Title="Date" Labels="{Binding Dates}" Foreground="Black" FontSize="14"/>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis Foreground="White" FontSize="14">
+                <lvc:Axis Foreground="Black" FontSize="14">
                     <lvc:Axis.Separator>
-                        <lvc:Separator StrokeThickness="1" Stroke="#8EFFFFFF" StrokeDashArray="8" Step="100" />
+                        <lvc:Separator StrokeThickness="1" Stroke="#8E000000" StrokeDashArray="8" Step="100" />
                     </lvc:Axis.Separator>
                 </lvc:Axis>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
+
+
     </Grid>
 </Page>
