@@ -1,9 +1,10 @@
 ﻿using BusinessObject;
 using DataAccess.Repository.Interface;
+using LiveCharts;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
-
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LuuThanhDatWPF
 {
@@ -21,10 +22,18 @@ namespace LuuThanhDatWPF
 			public decimal Revenue { get; set; }
         }
 
+        public ChartValues<decimal> Values { get; set; }
+        public List<string> Dates { get; set; }
+
         public P_Static()
         {
             InitializeComponent();
             _bookingReservationRepository = DIService.Instance.ServiceProvider.GetService<IBookingReservationRepository>();
+
+            Values = new ChartValues<decimal> ();
+            Dates = new List<string> ();
+            Chart.Update(true);
+            DataContext = this;
         }
 
         private void btn_Sort(object sender, RoutedEventArgs e)
@@ -80,8 +89,16 @@ namespace LuuThanhDatWPF
 
             if(listStatic .Count > 0)
             {
+                Values.Clear();
+                Dates.Clear();
+                foreach (var sta in listStatic)
+                {
+                    Values.Add(sta.Revenue);
+                    Dates.Add(sta.Date.ToString());
+                }
                 dataGrid.ItemsSource = listStatic.OrderByDescending(sta => sta.Revenue).ToList();
             }
+            Chart.Update(true);
 
             decimal totalRevenue = 0;
             listStatic.ForEach(stat => totalRevenue += stat.Revenue);
